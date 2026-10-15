@@ -1,0 +1,15 @@
+# ~/.zshrc — gestionado por ~/.dotfiles (los cambios locales van en ~/.shellrc.local)
+
+export DOTFILES="${${(%):-%x}:A:h:h}"  # carpeta del repo, siguiendo el enlace de ~/.zshrc
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME=""  # el prompt lo pone starship
+
+plugins=(git sudo colored-man-pages zsh-autosuggestions fast-syntax-highlighting)
+fpath+=${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src
+
+# Sugerencias en gris suave
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6c7086"
+
+[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+
+source "$DOTFILES/shell/common.sh"
