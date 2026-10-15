@@ -15,7 +15,7 @@ Sin `curl`: `bash -c "$(wget -qO- https://raw.githubusercontent.com/alvsheeesh/d
 - Si ya existía un `~/.zshrc` o `~/.config/starship.toml`, se guarda una copia en `~/.dotfiles-backup/`.
 - Si no hay zsh, ofrece instalarlo; si no se puede, usa **bash** con el mismo prompt y alias.
 - Si no se puede cambiar la shell por defecto (típico en un NAS), las sesiones SSH interactivas saltan a zsh solas
-  (`DOTFILES_NO_EXEC=1 ssh …` lo evita; `scp`/`rsync` no se ven afectados).
+  (para quedarte en bash: `DOTFILES_NO_EXEC=1 bash`; `scp`/`rsync` no se ven afectados).
 - Funciona en x86_64 y aarch64. Volver a ejecutarlo es seguro.
 
 Opciones (van al final: `bash -c "$(curl …)" -- --minimal`):
