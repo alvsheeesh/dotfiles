@@ -1,0 +1,11 @@
+{
+  "theme": "dark-ansi",
+  "enabledPlugins": {
+    "prompt-upgrade@claude-toolbox": false,
+    "auto-model@claude-toolbox": false,
+    "clean-view@claude-toolbox": true,
+    "superpowers@claude-toolbox": true,
+    "toolbox@claude-toolbox": true,
+    "burn-meter@claude-toolbox": true
+  }
+}
