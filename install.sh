@@ -8,6 +8,7 @@
 #   --bash         usar bash aunque haya zsh (no toca la shell por defecto)
 #   --minimal      no instalar los extras de animación (uv + tte, pipes.sh, btop)
 #   --no-greeting  desactivar el saludo animado en esta máquina
+#   --no-claude    no tocar Claude Code (tema y mods de la toolbox)
 #   --yes          no preguntar nada (útil sin terminal)
 #
 # Volver a ejecutarlo es seguro: solo instala lo que falte.
@@ -19,14 +20,17 @@ DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/alvsheeesh/dotfiles.git}"
 BIN="$HOME/.local/bin"
 BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 
-USE_BASH=0 MINIMAL=0 NO_GREETING=0 ASSUME_YES=0
+CLAUDE_TOOLBOX_REPO="${CLAUDE_TOOLBOX_REPO:-alvsheeesh/claude-toolbox}"
+
+USE_BASH=0 MINIMAL=0 NO_GREETING=0 NO_CLAUDE=0 ASSUME_YES=0
 for arg in "$@"; do
   case "$arg" in
     --bash) USE_BASH=1 ;;
     --minimal) MINIMAL=1 ;;
     --no-greeting) NO_GREETING=1 ;;
+    --no-claude) NO_CLAUDE=1 ;;
     --yes|-y) ASSUME_YES=1 ;;
-    -h|--help) sed -n '2,14p' "$0" 2>/dev/null || true; exit 0 ;;
+    -h|--help) sed -n '2,15p' "$0" 2>/dev/null || true; exit 0 ;;
     *) echo "Opción desconocida: $arg" >&2; exit 1 ;;
   esac
 done
@@ -215,6 +219,37 @@ if [ -n "$hook" ]; then
   # .bashrc para bash interactivo; .profile para sesiones SSH de login (sh/ash/bash)
   set_block "$HOME/.bashrc" "$hook"
   set_block "$HOME/.profile" "$hook"
+fi
+
+# ───────── 7. Claude Code ─────────
+if [ "$NO_CLAUDE" = 0 ] && has claude; then
+  step "Claude Code: tema y mods"
+  if claude plugin marketplace list 2>/dev/null | grep -q claude-toolbox; then
+    claude plugin marketplace update claude-toolbox >/dev/null 2>&1 || true
+  else
+    claude plugin marketplace add "$CLAUDE_TOOLBOX_REPO" >/dev/null 2>&1 || warn "no se pudo añadir la toolbox ($CLAUDE_TOOLBOX_REPO)"
+  fi
+  for p in $(grep -oE '"[a-z0-9-]+@claude-toolbox"' "$DOTFILES/claude/settings.json" | tr -d '"'); do
+    if claude plugin list 2>/dev/null | grep -q "$p"; then ok "${p%@*} ya instalado"
+    elif claude plugin install "$p" >/dev/null 2>&1; then ok "${p%@*}"
+    else warn "${p%@*}: no se pudo instalar"; fi
+  done
+
+  # Solo se mezclan las claves del repo (tema y mods activos); el resto de ajustes de la máquina se respeta
+  cfg="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json"; mkdir -p "$(dirname "$cfg")"
+  if [ ! -s "$cfg" ]; then cp "$DOTFILES/claude/settings.json" "$cfg"; ok "ajustes copiados"
+  elif has python3; then
+    python3 -I - "$cfg" "$DOTFILES/claude/settings.json" <<'PY' && ok "tema y mods aplicados"
+import json, sys
+dst, src = sys.argv[1], sys.argv[2]
+cur, new = json.load(open(dst)), json.load(open(src))
+for k, v in new.items():
+    cur[k] = {**cur.get(k, {}), **v} if isinstance(v, dict) and isinstance(cur.get(k), dict) else v
+json.dump(cur, open(dst, "w"), indent=2, ensure_ascii=False)
+PY
+  elif has jq; then
+    jq -s '.[0] * .[1]' "$cfg" "$DOTFILES/claude/settings.json" > "$TMP/cc.json" && cat "$TMP/cc.json" > "$cfg" && ok "tema y mods aplicados"
+  else warn "sin python3 ni jq: copia a mano lo de $DOTFILES/claude/settings.json en $cfg"; fi
 fi
 
 printf '\n%s✨ Listo.%s Abre una sesión nueva (o ejecuta %sexec %s%s) para verlo.\n' "$c_green" "$c_off" "$c_mauve" "$SHELL_KIND" "$c_off"

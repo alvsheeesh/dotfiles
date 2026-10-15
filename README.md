@@ -25,7 +25,19 @@ Opciones (van al final: `bash -c "$(curl …)" -- --minimal`):
 | `--bash` | usar bash aunque haya zsh |
 | `--minimal` | sin extras de animación (uv + tte, pipes.sh, btop) |
 | `--no-greeting` | sin saludo animado en esa máquina |
+| `--no-claude` | no tocar Claude Code |
 | `--yes` | no preguntar nada |
+
+## Claude Code
+
+Si la máquina tiene `claude`, el instalador también aplica su estética:
+
+- tema **`dark-ansi`**
+- los mods de mi [claude-toolbox](https://github.com/alvsheeesh/claude-toolbox): dock bajo el prompt, Clean View,
+  Burn Meter y Superpowers activos; Prompt Upgrade y Auto Model instalados pero apagados (se encienden desde el dock)
+
+Solo toca esas claves de `~/.claude/settings.json` ([`claude/settings.json`](claude/settings.json));
+el modelo, los permisos y lo demás de cada máquina se respetan.
 
 ## Actualizar
 
@@ -56,6 +68,7 @@ Los colores del fondo y los iconos los pone la terminal **desde la que te conect
 | `shell/common.sh` | prompt, alias, fzf, zoxide y saludo (compartido zsh/bash) |
 | `starship/starship.toml` | enlazado como `~/.config/starship.toml` |
 | `windows-terminal/` | tema Catppuccin Mocha para Windows Terminal |
+| `claude/settings.json` | tema y mods de Claude Code (se mezcla con los ajustes de la máquina) |
 
 Alias: `ls`/`ll`/`la`/`tree` (eza), `cat` (bat), `top` (btop), `cd` (zoxide, salta por nombre), `matrix`, `pipes`.
 Atajos: <kbd>Ctrl</kbd>+<kbd>R</kbd> historial difuso, <kbd>Ctrl</kbd>+<kbd>T</kbd> buscar archivos,
