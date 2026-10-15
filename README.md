@@ -6,10 +6,10 @@ Mi terminal: **zsh + oh-my-zsh**, prompt **starship** (Catppuccin Powerline), y 
 ## Instalar en cualquier Linux (una línea)
 
 ```sh
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/__GH_USER__/dotfiles/main/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/alvsheeesh/dotfiles/main/install.sh)"
 ```
 
-Sin `curl`: `bash -c "$(wget -qO- https://raw.githubusercontent.com/__GH_USER__/dotfiles/main/install.sh)"`
+Sin `curl`: `bash -c "$(wget -qO- https://raw.githubusercontent.com/alvsheeesh/dotfiles/main/install.sh)"`
 
 - **No necesita sudo**: los programas van a `~/.local/bin` y la configuración se enlaza desde `~/.dotfiles`.
 - Si ya existía un `~/.zshrc` o `~/.config/starship.toml`, se guarda una copia en `~/.dotfiles-backup/`.

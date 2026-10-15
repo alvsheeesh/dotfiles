@@ -2,7 +2,7 @@
 # Instala la estética de terminal (zsh + oh-my-zsh + starship Catppuccin + eza/bat/fzf/zoxide…)
 # en cualquier Linux, sin necesidad de sudo. Todo va a ~/.local/bin y ~/.dotfiles.
 #
-#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/__GH_USER__/dotfiles/main/install.sh)"
+#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/alvsheeesh/dotfiles/main/install.sh)"
 #
 # Opciones:
 #   --bash         usar bash aunque haya zsh (no toca la shell por defecto)
@@ -15,7 +15,7 @@
 set -euo pipefail
 
 DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
-DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/__GH_USER__/dotfiles.git}"
+DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/alvsheeesh/dotfiles.git}"
 BIN="$HOME/.local/bin"
 BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 
