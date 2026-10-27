@@ -148,6 +148,7 @@ if [ -n "$ARCH" ]; then
   if has fzf && fzf --zsh >/dev/null 2>&1; then ok "fzf ya instalado"; else  # las versiones viejas no traen --zsh
     t=$(latest_tag junegunn/fzf); install_bin fzf "https://github.com/junegunn/fzf/releases/download/$t/fzf-${t#v}-linux_$GOARCH.tar.gz"; fi
   need fastfetch && install_bin fastfetch "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-$GOARCH-polyfilled.tar.gz"
+  need pokeget  && install_bin pokeget "https://github.com/talwat/pokeget-rs/releases/latest/download/pokeget-Linux-$ARCH.tar.gz"
 
   if [ "$MINIMAL" = 0 ]; then
     need btop && install_bin btop "https://github.com/aristocratos/btop/releases/latest/download/btop-$ARCH-unknown-linux-musl.tar.gz"

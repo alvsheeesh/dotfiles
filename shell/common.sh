@@ -62,7 +62,9 @@ case $- in *i*)
     else
       echo "$__hello"
     fi
-    command -v fastfetch >/dev/null && fastfetch
+    if command -v fastfetch >/dev/null; then
+      if command -v pokeget >/dev/null; then bash "$DOTFILES/shell/pokefetch.sh"; else fastfetch; fi
+    fi
     unset __hello
   fi
 ;; esac
